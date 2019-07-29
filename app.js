@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
+const mongoose = require('mongoose'); // MongoDB object modeling designed to work in an asynchronous environment.
+const morgan = require('morgan'); //HTTP request logger middleware for node.js
+const bodyParser = require('body-parser'); //Node.js body parsing middleware.
 const expressValidator = require('express-validator');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv'); //Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
 dotenv.config();
 
 // dbkkk
