@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose'); // MongoDB object modeling designed to work in an asynchronous environment.
 const morgan = require('morgan'); //HTTP request logger middleware for node.js
 const bodyParser = require('body-parser'); //Node.js body parsing middleware.
+const cookieParser = require('cookie-parser'); //Node.js body parsing middleware.
 const expressValidator = require('express-validator');
 const dotenv = require('dotenv'); //Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
 dotenv.config();
@@ -17,15 +18,18 @@ mongoose.connection.on('error', err => {
 
 // brign in routes
 const postRoutes = require('./routes/post')
+const authRoutes = require('./routes/auth')
 
 
 
 //middleware
 app.use(morgan("dev"));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(expressValidator());
 
 app.use('/', postRoutes)
+app.use('/', authRoutes)
 
 
 const port = process.env.PORT || 8080;
