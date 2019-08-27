@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class Signup extends Component {
   constructor(){
     super()
@@ -24,16 +23,18 @@ class Signup extends Component {
     }
     fetch("http://localhost:8080/signup", {
       method: "POST",
-      header: {
-         Accept: "application/json",
-        "Content-type": "application/json"
+      headers: {
+        'Accept': "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(user)
     })
-    .then(Response => {
-      return Response.json();
+    .then(response => {
+      return response.json();
     })
-    .catch(err => console.log(err));
+    .catch(err =>{
+       console.log(err)
+     });
   }
   render() {
     const {name, email, password} = this.state;
@@ -64,3 +65,5 @@ class Signup extends Component {
   }
  } 
 export default Signup;
+
+

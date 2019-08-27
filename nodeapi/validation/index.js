@@ -23,6 +23,7 @@ exports.createPostValidator = (req, res, next) => {
 
 
 exports.userSignupValidation = (req, res, next) =>{
+
   //name
   req.check("name", "name is required").notEmpty();
   //mail
