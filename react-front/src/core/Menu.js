@@ -16,6 +16,9 @@ const Menu = withRouter(({history}) => (
         <Link className="nav-link" style={isActive(history, '/')} to="/">Home</Link>
       </li>
 
+      <li className="nav-item">
+        <Link className="nav-link" style={isActive(history, '/users')} to="/users">Users</Link>
+      </li>
       { !isAuthentitacted() && (
         <React.Fragment>
         <li className="nav-item">
@@ -38,9 +41,8 @@ const Menu = withRouter(({history}) => (
             onClick={()=> signout(()=> history.push('/'))}>Signout</a>
           </li>
           <li className="nav-item">
-                <Link className="nav-link"style={
-                  { cursor : "pointer", color: "#fff"}
-                  }
+                <Link className="nav-link"
+                  style={isActive(history, `/user/${isAuthentitacted().user._id}`)} 
                   to={`user/${isAuthentitacted().user._id}`}> 
                   {`${isAuthentitacted().user.name}'s Profile`}
                 </Link>
