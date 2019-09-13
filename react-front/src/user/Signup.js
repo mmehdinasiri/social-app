@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import  { signup } from '../auth';
+import  { Link } from 'react-router-dom';
 
 class Signup extends Component {
   constructor(){
@@ -75,6 +76,7 @@ class Signup extends Component {
         </div>
         <div className="alert alert-info" style={{display : open ? '' : 'none'}}>
           welcome to social app please login 
+          <Link to="/signin">Signe In</Link>
         </div>
           {this.signupForm(name, email, password)} 
       </div>

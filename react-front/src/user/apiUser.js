@@ -14,6 +14,21 @@ export const read = (userId, token) => {
   })
 }
 
+export const remove = (userId, token) => {
+  return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`,{
+    method : "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
+  .then(response => {
+    return response.json()
+  }).catch(err => {
+    console.log(err);
+  })
+}
 
 export const list = (userId, token) => {
   return fetch(`${process.env.REACT_APP_API_URL}/users`,{

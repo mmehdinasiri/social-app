@@ -33,17 +33,17 @@ const Menu = withRouter(({history}) => (
       { isAuthentitacted() && (
         <React.Fragment>
           <li className="nav-item">
-            <a className="nav-link" 
+            <span className="nav-link" 
             style={
               (isActive(history, '/signout'),
               { cursor : "pointer", color: "#fff"}
             )} 
-            onClick={()=> signout(()=> history.push('/'))}>Signout</a>
+            onClick={()=> signout(()=> history.push('/'))}>Signout</span>
           </li>
           <li className="nav-item">
                 <Link className="nav-link"
                   style={isActive(history, `/user/${isAuthentitacted().user._id}`)} 
-                  to={`user/${isAuthentitacted().user._id}`}> 
+                  to={`/user/${isAuthentitacted().user._id}`}> 
                   {`${isAuthentitacted().user.name}'s Profile`}
                 </Link>
           </li>
