@@ -31,7 +31,6 @@ class Profile extends Component {
     })
   }
 
-
   componentDidMount() {
     const userId = this.props.match.params.userId
     this.init(userId);
@@ -66,7 +65,7 @@ class Profile extends Component {
             { isAuthentitacted().user && isAuthentitacted().user._id === user._id && 
             (<div className="d-inline-block ">
                 <Link className="btn btn-raised btn-success mr-5"
-                  to={'/user/edit/${user._id}'}
+                  to={`/user/edit/${user._id}`}
                   >
                     Edit Profile
                   </Link>
