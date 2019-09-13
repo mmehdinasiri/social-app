@@ -44,7 +44,7 @@ class EditProfile extends Component {
   }
 
   handleChange = (name) => (event) => {
-    const value = name === "phote" ? event.target.files[0] : event.target.value
+    const value = name === "photo" ? event.target.files[0] : event.target.value
     this.userData.set(name, value);
     this.setState( {[name] : event.target.value });
   }
