@@ -1,7 +1,8 @@
 import React , { Component} from 'react'
 import { read, update } from './apiUser'
-import { isAuthentitacted } from '../auth'
+import { isAuthentitacted, updateUser } from '../auth'
 import { Redirect } from 'react-router-dom'
+import DefaultProfile from '../images/avatar.jpg'
 
 class EditProfile extends Component {
   constructor() {
@@ -10,6 +11,7 @@ class EditProfile extends Component {
       id: '',
       name: '',
       email: '',
+      about: '',
       password: '',
       error: '',
       redirectToProfile: false,
@@ -31,6 +33,7 @@ class EditProfile extends Component {
           id: data._id,
           name: data.name,
           email: data.email,
+          about: data.about,
           error: ''
         })
       }
@@ -58,15 +61,16 @@ class EditProfile extends Component {
       if(data.error){
         this.setState({error: data.error})
       }else{
-
-        this.setState({
-          redirectToProfile: true
+        updateUser(data, ()=>{
+          this.setState({
+            redirectToProfile: true
+          })
         })
       }
     })
     
   }
-  signupForm = (name, email, password) => (
+  signupForm = (name, email, password, about) => (
         <form>
           <div className="form-group">
             <label className="text-muted">Photo</label>
@@ -84,6 +88,11 @@ class EditProfile extends Component {
           </div>
 
           <div className="form-group">
+            <label className="text-muted">About</label>
+            <input type="textarea" className="form-control" value={about} onChange={ this.handleChange("about") }/>
+          </div>
+
+          <div className="form-group">
             <label className="text-muted">Password</label>
             <input type="password" className="form-control" value={password} onChange={ this.handleChange("password") } />
           </div>
@@ -92,14 +101,14 @@ class EditProfile extends Component {
         </form>
   )
   render(){
-    const {id, name, email, password, redirectToProfile, error, loading} = this.state;
+    const {id, name, email, about, password, redirectToProfile, error, loading } = this.state;
     if(redirectToProfile){
       return <Redirect to={`/user/${id}`}/>
     }
-
+    const imageProfile = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}?${new Date().getTime()}` :  DefaultProfile
     return(
       <div className="container">
-        <h2 className="my-5">Edit Profiele</h2>
+        <h2 className="my-5">Edit Profile</h2>
 
           <div
             className="alert alert-danger"
@@ -110,10 +119,10 @@ class EditProfile extends Component {
           }}>{error}</div>
 
           {loading
-            ? <div className="jumbotron text-center">Loadin...</div>
+            ? <div className="jumbotron text-center">Loading...</div>
             : ""}
-
-        {this.signupForm(name, email, password)} 
+        <img style={{height: "200px" , width: "auto"}} className="img-thumbnail" src={imageProfile} onError={ i => i.target.src = `${DefaultProfile}`} alt={name}/>
+        {this.signupForm(name, email, password, about)} 
       </div>
     )
   }
