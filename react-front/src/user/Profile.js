@@ -4,16 +4,37 @@ import { read } from './apiUser'
 import { Redirect , Link } from 'react-router-dom'
 import DefaultProfile from '../images/avatar.jpg'
 import DeleteUser  from './DeleteUser'
+import FollowProfileButton  from './FollowProfileButton'
 
 class Profile extends Component {
   constructor() {
     super()
     this.state = {
       user: "",
-      redirectToSignin: false
+      redirectToSignin: false,
+      following: false
     }
   }
-  
+  checkFollow = (user) =>{
+    const jwt = isAuthentitacted();
+    const match = user.followers.find(follower =>{
+      return follower._id === jwt.user._id
+    })
+    return match 
+  }
+
+  clickFollowButton = (callApi)=>{
+    const userId = isAuthentitacted().user._id;
+    const token = isAuthentitacted().token;
+    callApi(userId, token , this.state.user._id)
+    .then(data =>{
+      if(data.error){
+        this.setState({error: data.error})
+      }else{
+        this.setState({user: data , following: !this.state.following})
+      }
+    })
+  }
   init = (userId) => {
     const token = isAuthentitacted().token;
     read(userId, token)
@@ -24,8 +45,10 @@ class Profile extends Component {
         })
         console.log('error')
       }else{
+        let following = this.checkFollow(data)
         this.setState({
-          user: data
+          user: data,
+          following
         })
       }
     })
@@ -44,7 +67,6 @@ class Profile extends Component {
 
   render(){
     const { redirectToSignin , user } = this.state;
-
     const imageProfile = user._id ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${new Date().getTime()}` :  DefaultProfile
 
     if (redirectToSignin) return <Redirect to="/signin"/>
@@ -67,7 +89,7 @@ class Profile extends Component {
               <p>{user.email}</p>
               <p>{`Joined ${new Date(user.created).toDateString()}`}</p>
             </div>
-            { isAuthentitacted().user && isAuthentitacted().user._id === user._id && 
+            { isAuthentitacted().user && isAuthentitacted().user._id === user._id ? 
             (<div className="d-inline-block ">
                 <Link className="btn btn-raised btn-success mr-5"
                   to={`/user/edit/${user._id}`}
@@ -75,6 +97,13 @@ class Profile extends Component {
                     Edit Profile
                   </Link>
                   <DeleteUser userId={user._id}/>
+              </div>
+            ):(
+              <div>
+                <FollowProfileButton 
+                  following={this.state.following}
+                  onButtonClick={this.clickFollowButton}
+                />
               </div>
             )}
           </div>
