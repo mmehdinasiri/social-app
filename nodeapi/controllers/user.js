@@ -117,11 +117,11 @@ exports.addFollowing = (req, res, next)=>{
 exports.addFollower = (req, res, next)=>{
   User.findByIdAndUpdate(
     req.body.followId ,
-    {$push: {following: req.body.userId}},
+    {$push: {followers: req.body.userId}},
     {new: true}
   )
   .populate('following', '_id name')
-  .populate('follower', '_id name')
+  .populate('followers', '_id name')
   .exec((err, result)=>{
     if(err){
       return res.status(400).json({
@@ -148,11 +148,11 @@ exports.removeFollowing = (req, res, next)=>{
 exports.removeFollower = (req, res, next)=>{
   User.findByIdAndUpdate(
     req.body.unfollowId ,
-    {$pull: {following: req.body.userId}},
+    {$pull: {followers: req.body.userId}},
     {new: true}
   )
   .populate('following', '_id name')
-  .populate('follower', '_id name')
+  .populate('followers', '_id name')
   .exec((err, result)=>{
     if(err){
       return res.status(400).json({
@@ -163,4 +163,19 @@ exports.removeFollower = (req, res, next)=>{
     result.salt = undefined
     res.json(result)
   })
+}
+
+
+exports.findPeople = (req,res)=>{
+  let following = req.profile.following;
+  following.push(req.profile._id)
+  User.find({_id: {$nin: following}}, (err, users)=>{
+    if(err){
+      return res.status(400).json({
+        error: err
+      })
+    }
+    res.json(users);
+  }).select("user");
+
 }

@@ -5,12 +5,13 @@ import { Redirect , Link } from 'react-router-dom'
 import DefaultProfile from '../images/avatar.jpg'
 import DeleteUser  from './DeleteUser'
 import FollowProfileButton  from './FollowProfileButton'
+import ProfileTabs  from './ProfileTabs'
 
 class Profile extends Component {
   constructor() {
     super()
     this.state = {
-      user: "",
+      user: {followers:[] , following:[]},
       redirectToSignin: false,
       following: false
     }
@@ -113,8 +114,8 @@ class Profile extends Component {
             <hr/>
             <p className="laed mt-5 mb-5">{user.about}</p>
             <hr/>
+            <ProfileTabs followers={user.followers} following={user.following}/>
           </div>
-
         </div>
     </div>
     )
