@@ -49,6 +49,13 @@ const Menu = withRouter(({history}) => (
           </li>
           <li className="nav-item">
                 <Link className="nav-link"
+                  style={isActive(history, `/post/create`)}
+                  to={`/post/create`}> 
+                  Creata Post
+                </Link>
+          </li>
+          <li className="nav-item">
+                <Link className="nav-link"
                   style={isActive(history, `/user/${isAuthentitacted().user._id}`)} 
                   to={`/user/${isAuthentitacted().user._id}`}> 
                   {`${isAuthentitacted().user.name}'s Profile`}
