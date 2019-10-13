@@ -9,7 +9,7 @@ exports.postById = (req, res, next, id) =>{
   .populate("postedBy", "_id name")
   .exec((err, post) => {
     if(err || !post){
-      return res.status(400).josn({
+      return res.status(400).json({
         error: err
       })
     }
@@ -92,6 +92,7 @@ exports.updatePost = (req, res) =>{
     res.json(post);
   })
 }
+
 exports.deletePost = (req, res) =>{
   let post = req.post;
   post.remove((err, post)=>{
@@ -105,7 +106,12 @@ exports.deletePost = (req, res) =>{
     })
   })
 }
+
 exports.photo = (req, res, next) => {
   res.set("Content-Type" , req.post.photo.contentType)
   return res.send(req.post.photo.data);
+}
+
+exports.singlePost = (req, res) => {
+  return res.json(req.post)
 }

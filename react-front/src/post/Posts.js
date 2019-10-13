@@ -25,7 +25,7 @@ class Posts extends Component {
         <div className="row">
           {posts.map((post,i) => {
             const postId = post.postedBy ? `/user/${post.postedBy._id}` : '';
-            const posterName = post.postedBy ? post.postedBy.name : ' Unknoun';
+            const posterName = post.postedBy ? post.postedBy.name : ' Unknown';
             return (
               <div className="card col-md-4" key={i}>
                 <div className="card-body">
@@ -41,7 +41,7 @@ class Posts extends Component {
                     Posted by {" "}<Link to={`${postId}`}>{posterName}{" "}</Link>
                     on {new Date(post.created).toDateString()}
                   </p>
-                  <Link to={`/posts/${post._id}`}
+                  <Link to={`/post/${post._id}`}
                     className="btn btn-raised btn-primary btn-small">
                     Read more
                   </Link>
@@ -56,7 +56,10 @@ class Posts extends Component {
     const {posts} = this.state
     return (
       <div className="container">
-        <h2 className="my-5">Posts</h2>
+        <h2 className="my-5">
+          {!posts.length ? 'Loading...' : 'Recent posts'}
+        </h2>
+
         {this.renderPosts(posts)}
       </div>
     )

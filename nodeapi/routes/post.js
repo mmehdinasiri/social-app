@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { getPost , createPost , postsByUser , postById, isPoster, deletePost, updatePost, photo} = require('../controllers/post');
+const { getPost , createPost , postsByUser , postById, isPoster, deletePost, updatePost, photo, singlePost} = require('../controllers/post');
 const { requireSignin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 const { createPostValidator } = require('../validation');
@@ -14,6 +14,7 @@ router.post(
      createPostValidator  
 );
 router.get("/posts/by/:userId", requireSignin , postsByUser )
+router.get("/post/:postId", singlePost );
 router.put("/post/:postId", requireSignin , isPoster, updatePost)
 router.delete("/post/:postId", requireSignin , isPoster, deletePost)
 
