@@ -16,6 +16,9 @@ const postSchema = new mongoose.Schema({
       data: Buffer,
       contentType: String
     },
+
+    updated: Date,
+
     postedBy: {
       type: ObjectId,
       ref: 'User'
